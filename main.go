@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -12,7 +13,12 @@ func main() {
 
 	m.HandleFunc("/", handlePage)
 
-	const addr = ":8080"
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if PORT is none
+	}
+	addr := fmt.Sprintf(":%s", port)
+
 	srv := http.Server{
 		Handler:      m,
 		Addr:         addr,
